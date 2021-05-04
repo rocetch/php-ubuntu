@@ -1,0 +1,15 @@
+# This is a basic workflow that is manually triggered
+
+name: Build Image
+
+on:
+  push:
+    branches: master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - 
+        name: Generate version.json
+        run: ./versions.sh
