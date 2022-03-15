@@ -53,7 +53,10 @@ ENV APACHE_ENVVARS $APACHE_CONFDIR/envvars
 
 RUN set -eux; \
 	apt-get update; \
+	DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common; \
+	add-apt-repository ppa:ondrej/apache2; \
 	DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends apache2; \
+	apt-get autoremove -y software-properties-common; \
 	rm -rf /var/lib/apt/lists/*; \
 	\
 # generically convert lines like
