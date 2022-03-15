@@ -4,7 +4,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM debian:buster-slim
+FROM ubuntu:focal
 
 # prevent Debian's PHP packages from being installed
 # https://github.com/docker-library/php/pull/542
@@ -53,7 +53,7 @@ ENV APACHE_ENVVARS $APACHE_CONFDIR/envvars
 
 RUN set -eux; \
 	apt-get update; \
-	apt-get install -y --no-install-recommends apache2; \
+	DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends apache2; \
 	rm -rf /var/lib/apt/lists/*; \
 	\
 # generically convert lines like
@@ -161,7 +161,7 @@ RUN set -eux; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
 		apache2-dev \
-		libargon2-dev \
+		libargon2-0-dev \
 		libcurl4-openssl-dev \
 		libonig-dev \
 		libreadline-dev \
@@ -265,6 +265,12 @@ RUN set -eux; \
 		| xargs -r apt-mark manual \
 	; \
 	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
+	apt-get update; \
+	apt-get install -y --no-install-recommends \
+		libargon2-0 \
+		libonig5 \
+		libreadline8 \
+	; \
 	rm -rf /var/lib/apt/lists/*; \
 	\
 # update pecl channel definitions https://github.com/docker-library/php/issues/443
